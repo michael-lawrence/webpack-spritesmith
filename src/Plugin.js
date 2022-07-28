@@ -93,7 +93,8 @@ module.exports = class SpritesmithPlugin {
         const sourceImagesByFolder = this.getWatcher().watched();
         const allSourceImages = Object.values(sourceImagesByFolder)
                 .reduce((allFiles, files) => [ ...allFiles, ...files ], [])
-                .filter(x => !x.endsWith(path.sep));
+                .filter(x => !x.endsWith(path.sep))
+                .filter(x=> typeof this.options.src.filter === 'function' ? this.options.src.filter(x): true);
 
         const sourceImageBySpriteName = allSourceImages.reduce((sourceImageBySpriteName, sourceImage) => {
                 const spriteName = this.options.apiOptions.generateSpriteName(sourceImage);
